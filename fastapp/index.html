@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jhonathan Wesley - Meu Portfólio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #6a0dad; /* Roxo vibrante */
+            --secondary-color: #7b68ee; /* Roxo claro */
+            --background-color: #1a1a2e; /* Azul escuro quase preto */
+            --card-bg: #2e2e4e; /* Azul mais claro para os cartões */
+            --text-color: #e0e0e0; /* Cinza claro */
+            --accent-color: #00bcd4; /* Ciano para destaque */
+            --border-radius: 12px;
+            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            --transition-speed: 0.3s ease-in-out;
+        }
+
+        /* Estilos Gerais do Corpo */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--background-color) 0%, #0f0f1d 100%);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animação de Entrada do Título */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Título Principal */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s forwards;
+            animation-delay: 0.2s;
+            opacity: 0; /* Começa invisível para a animação */
+        }
+
+        .header h1 {
+            font-size: 3.2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(106, 13, 173, 0.5);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: var(--secondary-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Contêiner dos Cartões */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        /* Animação de Entrada dos Cartões */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilo Individual do Cartão */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            text-align: center;
+            width: 300px;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(123, 104, 238, 0.3); /* Borda sutil */
+            animation: fadeInUp 0.8s forwards; /* Animação de entrada */
+            opacity: 0; /* Começa invisível para a animação */
+        }
+
+        /* Atrasos para a animação de cada cartão */
+        .card:nth-child(1) { animation-delay: 0.4s; }
+        .card:nth-child(2) { animation-delay: 0.6s; }
+        .card:nth-child(3) { animation-delay: 0.8s; }
+
+        /* Efeito de Hover no Cartão (transform e brilho) */
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--secondary-color);
+        }
+
+        /* Título do Cartão */
+        .card h2 {
+            color: var(--accent-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .card h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* Descrição do Cartão */
+        .card p {
+            font-size: 1.1em;
+            color: var(--text-color);
+            margin-bottom: 25px;
+        }
+
+        /* Estilo do Botão/Link */
+        .card a {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.4);
+        }
+
+        .card a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(123, 104, 238, 0.6);
+        }
+
+        /* Efeito de Ondulação no Clique (JavaScript) */
+        .card.ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card.ripple::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            width: 0;
+            height: 0;
+            pointer-events: none;
+            transform: scale(0);
+            opacity: 1;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        .card.ripple.animate::after {
+            transform: scale(3);
+            opacity: 0;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            .header p {
+                font-size: 1em;
+                padding: 0 15px;
+            }
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .card {
+                width: 85%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Olá! Eu sou Jhonathan Wesley</h1>
+        <p>Estudante de Ciência de Dados e entusiasta de tecnologia, programação e inteligência artificial. Conecte-se comigo!</p>
+    </div>
+
+    <div class="cards-container">
+        <div class="card" id="card1">
+            <h2>LinkedIn</h2>
+            <p>Conecte-se e veja meu perfil profissional completo, minhas experiências e projetos.</p>
+            <a href="https://www.linkedin.com/in/jhonathanwesley/" target="_blank">Acessar LinkedIn</a>
+        </div>
+
+        <div class="card" id="card2">
+            <h2>GitHub</h2>
+            <p>Explore meus repositórios de código, projetos de dados, Engenharia de Dados e mais.</p>
+            <a href="https://github.com/jhonathanwesley" target="_blank">Ver GitHub</a>
+        </div>
+
+        <div class="card" id="card3">
+            <h2>Certificado de Inglês</h2>
+            <p>Confira meu certificado EF SET indicando proficiência no nível C1 de inglês.</p>
+            <a href="https://cert.efset.org/utAkPU" target="_blank">Ver Certificado</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Adiciona a classe 'ripple' se ainda não tiver
+                    if (!card.classList.contains('ripple')) {
+                        card.classList.add('ripple');
+                    }
+
+                    // Remove qualquer animação de ondulação anterior para reiniciar
+                    const existingRipple = card.querySelector('.ripple-effect');
+                    if (existingRipple) {
+                        existingRipple.remove();
+                    }
+
+                    // Cria o elemento da ondulação
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    const rect = card.getBoundingClientRect();
+                    
+                    // Posição do clique relativa ao cartão
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    card.appendChild(ripple);
+
+                    // Força um reflow para garantir a animação
+                    void ripple.offsetWidth; 
+                    ripple.classList.add('animate');
+
+                    // Remove o elemento da ondulação após a animação
+                    ripple.addEventListener('animationend', () => {
+                        ripple.remove();
+                    });
+
+                    // Navega para o link se o clique não for no botão
+                    // Isso é opcional, mas pode ser útil se quiser que o cartão todo seja clicável
+                    // para o link, além do botão. Neste caso, o botão já lida com isso.
+                    // const link = card.querySelector('a');
+                    // if (link && !e.target.closest('a')) {
+                    //     window.open(link.href, '_blank');
+                    // }
+                });
+            });
+
+            // Estilo dinâmico para o efeito de ondulação (adicionado via JS)
+            // Isso é necessário porque o CSS pseudo-elemento ::after não pode ser animado diretamente
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .ripple-effect {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: scale(0);
+                    opacity: 1;
+                    animation: ripple-animation 0.6s ease-out forwards;
+                }
+
+                @keyframes ripple-animation {
+                    to {
+                        transform: scale(2.5); /* Ajuste o tamanho da ondulação */
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
