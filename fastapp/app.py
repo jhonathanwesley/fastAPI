@@ -1,17 +1,41 @@
 from http import HTTPStatus
+
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-app = FastAPI()
+from fastapp.schemas import Message, UserSchema
+
+app = FastAPI(title='Jhonathan Server Side')
 
 
-@app.get('/', status_code=HTTPStatus.OK)
+@app.get('/index', status_code=HTTPStatus.OK, response_model=Message)
 def read_root():
-    return {'message': 'Primeiro endpoint com fastAPI'}
+    return {'message': 'Bem Vindo a API'}
 
 
-@app.get('/html', status_code=HTTPStatus.OK, response_class=HTMLResponse)
+@app.get('/', status_code=HTTPStatus.OK, response_class=HTMLResponse)
 def write_html():
     with open('fastapp/index.html', 'r', encoding='utf-8') as f:
         html_content = f.read()
     return HTMLResponse(html_content, HTTPStatus.OK)
+
+
+@app.post('/user', status_code=HTTPStatus.CREATED,)
+def create_user(user: UserSchema):
+    return user
+
+
+@app.get('/hello', status_code=HTTPStatus.OK, response_class=HTMLResponse)
+def hello_html():
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="widht=device-widht, initial-scale=1.0">
+        <title>Hello World API endpoint</title>
+    </head>
+    <body>
+        <h1>Hello World</h1>
+    </body>
+    </html>"""

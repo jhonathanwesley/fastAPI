@@ -29,11 +29,56 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Altera para começar do topo */
             min-height: 100vh;
             overflow-x: hidden;
             line-height: 1.6;
         }
+
+        /* --- Barra de Navegação --- */
+        .navbar {
+            width: 100%;
+            background-color: rgba(15, 15, 29, 0.9); /* Fundo semi-transparente para o navbar */
+            padding: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center; /* Centraliza os botões */
+            position: fixed; /* Fixa no topo */
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Garante que fique acima de outros elementos */
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 25px; /* Espaçamento entre os botões */
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center; /* Garante centralização interna */
+        }
+
+        .navbar-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: background-color var(--transition-speed), transform var(--transition-speed), color var(--transition-speed);
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(123, 104, 238, 0.2); /* Fundo sutil */
+            border: 1px solid var(--secondary-color);
+        }
+
+        .navbar-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.6);
+            color: white;
+        }
+        /* --- Fim da Barra de Navegação --- */
+
 
         /* Animação de Entrada do Título */
         @keyframes fadeInDown {
@@ -50,6 +95,7 @@
         /* Título Principal */
         .header {
             text-align: center;
+            margin-top: 120px; /* Adiciona margem superior para compensar o navbar fixo */
             margin-bottom: 40px;
             animation: fadeInDown 1s forwards;
             animation-delay: 0.2s;
@@ -78,6 +124,7 @@
             justify-content: center;
             padding: 20px;
             max-width: 1200px;
+            margin-bottom: 50px; /* Margem para o rodapé ou final da página */
         }
 
         /* Animação de Entrada dos Cartões */
@@ -147,7 +194,7 @@
             margin-bottom: 25px;
         }
 
-        /* Estilo do Botão/Link */
+        /* Estilo do Botão/Link dentro do cartão */
         .card a {
             display: inline-block;
             background-color: var(--primary-color);
@@ -193,6 +240,16 @@
 
         /* Responsividade */
         @media (max-width: 768px) {
+            .navbar-links {
+                gap: 15px; /* Ajusta espaçamento para mobile */
+            }
+            .navbar-links a {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+            .header {
+                margin-top: 100px; /* Ajusta margem para mobile */
+            }
             .header h1 {
                 font-size: 2.5em;
             }
@@ -213,6 +270,13 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-links">
+            <a href="#">Home</a> <a href="/docs" target="_blank">Docs</a>
+            <a href="/redoc" target="_blank">ReDoc</a>
+        </div>
+    </nav>
+
     <div class="header">
         <h1>Olá! Eu sou Jhonathan Wesley</h1>
         <p>Estudante de Ciência de Dados e entusiasta de tecnologia, programação e inteligência artificial. Conecte-se comigo!</p>
@@ -244,6 +308,14 @@
 
             cards.forEach(card => {
                 card.addEventListener('click', (e) => {
+                    // Impede a navegação do link dentro do card se o clique for no próprio card
+                    // e a ideia é apenas mostrar o ripple effect no clique em qualquer lugar do card.
+                    // Se você quer que o clique em qualquer lugar do card navegue para o link,
+                    // remova esta condição e use a parte comentada no final.
+                    if (e.target.tagName === 'A') {
+                        return; // Se clicou no link, não faça o ripple no card pai
+                    }
+
                     // Adiciona a classe 'ripple' se ainda não tiver
                     if (!card.classList.contains('ripple')) {
                         card.classList.add('ripple');
@@ -277,18 +349,16 @@
                         ripple.remove();
                     });
 
-                    // Navega para o link se o clique não for no botão
-                    // Isso é opcional, mas pode ser útil se quiser que o cartão todo seja clicável
-                    // para o link, além do botão. Neste caso, o botão já lida com isso.
-                    // const link = card.querySelector('a');
-                    // if (link && !e.target.closest('a')) {
-                    //     window.open(link.href, '_blank');
-                    // }
+                    // Opcional: Navega para o link do cartão se o clique não for no botão
+                    // e você quer que o cartão todo seja clicável para o link.
+                    const link = card.querySelector('a');
+                    if (link && !e.target.closest('a')) {
+                        window.open(link.href, '_blank');
+                    }
                 });
             });
 
             // Estilo dinâmico para o efeito de ondulação (adicionado via JS)
-            // Isso é necessário porque o CSS pseudo-elemento ::after não pode ser animado diretamente
             const style = document.createElement('style');
             style.innerHTML = `
                 .ripple-effect {

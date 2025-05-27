@@ -1,5 +1,19 @@
 # Projeto WEB com FastAPI
 
+## Principais dependências:
+
+```bash
+$ pipx, poetry, ruff
+```
+
+```python
+fastapi, taskipy, pytest
+```
+
+> Lib `pydantic` que vem junto ao **FastAPI**
+
+- `Pydantic` permite criar contratos de dados e fazer validação
+
 ### Servidores de aplicação python
  
 Python web applications require a server to handle incoming HTTP requests and route them to the application code. WSGI and ASGI are specifications that define how web servers communicate with Python web applications or frameworks.
