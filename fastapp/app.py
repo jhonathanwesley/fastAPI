@@ -20,11 +20,6 @@ def write_html():
     return HTMLResponse(html_content, HTTPStatus.OK)
 
 
-@app.post('/user', status_code=HTTPStatus.CREATED,)
-def create_user(user: UserSchema):
-    return user
-
-
 @app.get('/hello', status_code=HTTPStatus.OK, response_class=HTMLResponse)
 def hello_html():
     return """
@@ -39,3 +34,8 @@ def hello_html():
         <h1>Hello World</h1>
     </body>
     </html>"""
+
+
+@app.post('/users/', status_code=HTTPStatus.CREATED,)
+def create_user(user: UserSchema):
+    return user
